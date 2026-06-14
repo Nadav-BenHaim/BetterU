@@ -9,17 +9,11 @@ const clickSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
 
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
-    // Find the currently visible screen and hide it
-    const currentScreen = document.querySelector('.screen.active');
-    if (currentScreen) {
-        currentScreen.classList.remove('active');
-    }
-    
-    // Find the target screen and make it visible
-    const targetScreen = document.getElementById(screenId);
-    if (targetScreen) {
-        targetScreen.classList.add('active');
-    }
+    const current = document.querySelector('.app-screen.active-screen');
+    if (current) current.classList.remove('active-screen');
+
+    const target = document.getElementById(screenId);
+    if (target) target.classList.add('active-screen');
 }
 
 // 3. Set Up Button Click Listeners
@@ -28,10 +22,19 @@ function navigateTo(screenId) {
 document.getElementById('loginBtn').addEventListener('click', () => {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
     loginSound.play(); 
-    navigateTo('dashboardScreen');
+
+    // Aesthetic structural button transformation sequence
+    this.innerHTML = '<span class="relative z-10 flex items-center gap-2"><span class="material-symbols-outlined animate-spin text-sm">autorenew</span> INITIATING SYNC...</span>';
+    this.style.opacity = '0.7';
+    this.style.pointerEvents = 'none';
+
+    // Short latency buffer before state route change
+    setTimeout(() => {
+        navigateTo('dashboardScreen');
+    }, 1500);
 });
 
-// Screen 2: Dashboard Interactions
+// Sound Triggers & Nav Routes
 document.getElementById('triggerSoundBtn').addEventListener('click', () => {
     clickSound.play();
 });
@@ -40,8 +43,23 @@ document.getElementById('toSettingsBtn').addEventListener('click', () => {
     navigateTo('settingsScreen');
 });
 
-// Screen 3: Settings Interactions
 document.getElementById('backToDashBtn').addEventListener('click', () => {
-    navigateTo('settingsScreen'); // Oops, small typo prevention: navigating back
     navigateTo('dashboardScreen');
+});
+
+// Dynamic Volume Metric Feedback 
+document.getElementById('volumeSlider').addEventListener('input', (e) => {
+    document.getElementById('volumeVal').textContent = `${e.target.value}%`;
+    // If you want to change Howler output volume on the fly:
+    Howler.volume(e.target.value / 100);
+});
+
+// Subtle Ambient Canvas Mouse/Gyroscopic Response Track
+document.addEventListener('mousemove', (e) => {
+    const ring = document.querySelector('.loading-ring');
+    if (ring && ring.offsetParent !== null) { // Only calculate if visible
+        const moveX = (e.clientX - window.innerWidth / 2) / 50;
+        const moveY = (e.clientY - window.innerHeight / 2) / 50;
+        ring.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    }
 });
