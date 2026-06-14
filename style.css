@@ -15,6 +15,25 @@ body {
     padding: 20px;
 }
 
+/* Base style for ALL screens */
+.screen {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+/* The active class that makes a specific screen visible */
+.screen.active {
+    display: flex; 
+}
+
 .container {
     text-align: center;
     width: 100%;
@@ -40,14 +59,110 @@ h1 {
     width: 80%;
 }
 
-/* Gives visual feedback on mobile when tapped */
-.btn:active {
-    transform: scale(0.95);
-    background-color: #1d4ed8;
+/* --- UI Component Styling --- */
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.05em;
 }
 
-p {
-    margin-top: 1.5rem;
+.subtitle {
     color: #94a3b8;
-    font-size: 0.9rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
 }
+
+/* Mock Google Button */
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #ffffff;
+    color: #1e293b;
+    border: none;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+    .google-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .google-btn:active {
+        background-color: #f1f5f9;
+        transform: scale(0.98);
+    }
+
+/* Menu Layout & Buttons */
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.action-btn, .nav-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+    .action-btn:active, .nav-btn:active {
+        transform: scale(0.96);
+    }
+
+.nav-btn {
+    background-color: #334155; /* Slate 700 */
+}
+
+    .nav-btn.secondary {
+        background-color: transparent;
+        border: 2px solid #475569;
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+.status-msg {
+    color: #38bdf8;
+    font-size: 0.9rem;
+    background-color: rgba(56, 189, 248, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.control-panel {
+    margin-top: 3rem;
+    text-align: left;
+    width: 100%;
+}
+
+    .control-panel label {
+        display: block;
+        margin-bottom: 10px;
+        color: #94a3b8;
+    }
+
+    .control-panel input[type="range"] {
+        width: 100%;
+        accent-color: #2563eb;
+    }
