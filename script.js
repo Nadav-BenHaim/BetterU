@@ -4,8 +4,19 @@ const sound = new Howl({
     src: ['sound-effect.mp3'], 
     html5: true // Ensures better streaming performance on mobile devices
 });
-// const loginSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
-// const clickSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
+// Dashboard Track 1: Narrative Voiceover or Intro Sound
+const dashboardIntroSound = new Howl({ 
+    src: ['scene01_p02.mp3'], 
+    html5: true 
+});
+
+// Dashboard Track 2: Sustained Ambient System Loop
+const dashboardAmbientLoop = new Howl({ 
+    src: ['scene01_p03.mp3'], 
+    html5: true, 
+    loop: true, 
+    volume: 0.4 // Kept slightly quieter in background
+});
 
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
@@ -51,11 +62,11 @@ document.getElementById('loginBtn').addEventListener('click', function(event) {
     } else if (docElm.webkitRequestFullscreen) { /* Safari support */
         docElm.webkitRequestFullscreen();
     }
-
+    
     // 3. Lock the scrolling system dynamically so subsequent screens don't scroll
     document.body.style.overflowY = 'hidden';
     document.body.style.height = '100dvh';
-    
+
     // Explicitly target the button via event.currentTarget to avoid scoping issues
     const btn = event.currentTarget;
     
@@ -67,9 +78,39 @@ document.getElementById('loginBtn').addEventListener('click', function(event) {
     // Short latency buffer before state route change
     setTimeout(() => {
         navigateTo('dashboardScreen');
+
+        // Start the intro audio automatically as the dashboard appears
+        try {
+            dashboardIntroSound.play();
+        } catch(err) {
+            console.log("Audio autoplay prevented or missing, triggering bypass...", err);
+            triggerAlertSequence(); // Fallback if mobile blocks it
+        }
     }, 1500);
 });
 
+// 4. Sequential Dashboard Interface Timeline Triggers
+
+// Runs when Intro track is completed
+dashboardIntroSound.on('end', function() {
+    triggerAlertSequence();
+});
+
+function triggerAlertSequence() {
+    // A. Animate notification card onto viewport
+    const container = document.getElementById('alertNotification');
+    const card = container.querySelector('.glass-card');
+    
+    container.classList.remove('hidden');
+    card.classList.add('notification-slide');
+    
+    // B. Spin up the ambient sound array loop now that the intro has cleared
+    try {
+        dashboardAmbientLoop.play();
+    } catch(e) {}
+}
+
+/*
 // Sound Triggers & Nav Routes
 document.getElementById('triggerSoundBtn').addEventListener('click', () => {
     sound.play();
@@ -88,8 +129,9 @@ document.getElementById('volumeSlider').addEventListener('input', (e) => {
     document.getElementById('volumeVal').textContent = `${e.target.value}%`;
     // If you want to change Howler output volume on the fly:
     Howler.volume(e.target.value / 100);
-});
+}); */
 
+/*
 // Subtle Ambient Canvas Mouse/Gyroscopic Response Track
 document.addEventListener('mousemove', (e) => {
     const ring = document.querySelector('.loading-ring');
@@ -98,4 +140,38 @@ document.addEventListener('mousemove', (e) => {
         const moveY = (e.clientY - window.innerHeight / 2) / 50;
         ring.style.transform = `translate(${moveX}px, ${moveY}px)`;
     }
+}); */
+
+// Screen 2 Alert Button: Routes to Settings without dropping ambient sound loop
+document.getElementById('alertActionBtn').addEventListener('click', () => {
+    navigateTo('settingsScreen');
+    // Notice: dashboardAmbientLoop is NOT stopped, so it carries over seamlessly!
+});
+
+document.getElementById('backToDashBtn').addEventListener('click', () => {
+    navigateTo('dashboardScreen');
+});
+
+// Dynamic volume listener linked to master output
+document.getElementById('volumeSlider').addEventListener('input', (e) => {
+    document.getElementById('volumeVal').textContent = `${e.target.value}%`;
+    Howler.volume(e.target.value / 100);
+});
+
+// Bento Card Hover Spotlight Matrix Effects
+document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.glass-card');
+    cards.forEach(card => {
+        if (card.offsetParent !== null) { // Active layout optimization check
+            const rect = card.getBoundingClientRect();
+            const localX = e.clientX - rect.left;
+            const localY = e.clientY - rect.top;
+            
+            if (localX > 0 && localX < rect.width && localY > 0 && localY < rect.height) {
+                card.style.borderColor = `rgba(189, 200, 209, 0.3)`;
+            } else {
+                card.style.borderColor = `rgba(255, 255, 255, 0.1)`;
+            }
+        }
+    });
 });
