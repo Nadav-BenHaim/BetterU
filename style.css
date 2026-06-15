@@ -6,9 +6,11 @@ body {
     touch-action: manipulation;
     /* Removes the default muddy gray highlight box that Safari flashes over tapped links */
     -webkit-tap-highlight-color: transparent;
-
-    min-height: 101dvh; /* Force an extra 1% height to allow a tiny scroll */
+    /**/
+    min-height: 108dvh; /* Make it clearly taller than the screen so Chrome registers a scroll */
+    width: 100vw;
     overflow-y: scroll; /* Allow vertical scrolling */
+    -webkit-overflow-scrolling: touch; /* Ensures smooth momentum scrolling on iOS */
 }
 
 /* Custom Icon Font Variation Override */
@@ -21,15 +23,17 @@ body {
     display: none; /* Hide everything by default */
     opacity: 0;
     width: 100vw;
-    height: 100dvh; /* Adapts dynamically to the actual viewable space */
-    position: fixed; /* Fixed keeps it locked in place, preventing scroll bounce */
+    min-height: 100dvh; /* Let each screen fill the view naturally */
+    /*
+    position: fixed; /* Fixed keeps it locked in place, preventing scroll bounce 
     top: 0;
     left: 0;
-    overflow: hidden; /* Prevents accidental scroll bounce on mobile devices */
+    overflow: hidden; /* Prevents accidental scroll bounce on mobile devices 
+    */
     flex-direction: column;
     justify-content: space-between;
-    padding-top: 4rem; /* Safe breathing room below header */
-    padding-bottom: 2rem;
+    padding-top: 5rem; /* Safe breathing room below header */
+    padding-bottom: 5rem;
     transition: opacity 0.3s ease-in-out; /* For smooth-looking transition */
 }
 
