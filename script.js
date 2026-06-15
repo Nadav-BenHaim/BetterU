@@ -17,9 +17,9 @@ const popChatIntro = new Howl({
     //volume: 0.4 // Kept slightly quieter in background
 });
 //
-const buttonSound = new Howl({ src: ['audio/button-8'], html5: true });
-const sendSound = new Howl({ src: ['audio/message-sent'], html5: true });
-const errorSound = new Howl({ src: ['audio/error_01'], html5: true });
+const buttonSound = new Howl({ src: ['./audio/button-8'], html5: true });
+const sendSound = new Howl({ src: ['./audio/message-sent'], html5: true });
+const errorSound = new Howl({ src: ['./audio/error_01'], html5: true });
 
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
