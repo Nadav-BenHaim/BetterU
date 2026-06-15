@@ -19,15 +19,19 @@ function navigateTo(screenId) {
 // 3. Set Up Button Click Listeners
 
 // Screen 1: Login -> Dashboard
-document.getElementById('loginBtn').addEventListener('click', () => {
+// Simulated Google Authenticator Routine
+document.getElementById('loginBtn').addEventListener('click', function(event) {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
-    sound.play(); 
-
+    sound.play();
+    
+    // Explicitly target the button via event.currentTarget to avoid scoping issues
+    const btn = event.currentTarget;
+    
     // Aesthetic structural button transformation sequence
-    this.innerHTML = '<span class="relative z-10 flex items-center gap-2"><span class="material-symbols-outlined animate-spin text-sm">autorenew</span> INITIATING SYNC...</span>';
-    // this.style.opacity = '0.7';
-    this.style.pointerEvents = 'none';
-
+    btn.innerHTML = '<span class="relative z-10 flex items-center gap-2"><span class="material-symbols-outlined animate-spin text-sm">autorenew</span> INITIATING SYNC...</span>';
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    
     // Short latency buffer before state route change
     setTimeout(() => {
         navigateTo('dashboardScreen');
