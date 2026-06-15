@@ -6,7 +6,7 @@ const sound = new Howl({
 });
 // Dashboard Track 1: Narrative Voiceover or Intro Sound
 const dashboardIntroSound = new Howl({ 
-    src: ['sound-effect.mp3'], //'scene01_p02.mp3'
+    src: ['scene01_p02.mp3'], //'scene01_p02.mp3'
     html5: true 
 });
 // Dashboard Track 2: Sustained Ambient System Loop
