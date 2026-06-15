@@ -17,7 +17,7 @@ const popChatIntro = new Howl({
     //volume: 0.4 // Kept slightly quieter in background
 });
 //
-const buttonSound = new Howl({ src: ['button-8.wav'], html5: true });
+const buttonSound = new Howl({ src: ['button-8.mp3'], html5: true });
 const sendSound = new Howl({ src: ['message-sent.wav'], html5: true });
 const errorSound = new Howl({ src: ['./audio/error_01.wav'], html5: true });
 
