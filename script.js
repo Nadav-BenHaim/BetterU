@@ -11,11 +11,11 @@ const dashboardIntroSound = new Howl({
 });
 
 // Dashboard Track 2: Sustained Ambient System Loop
-const dashboardAmbientLoop = new Howl({ 
+const popChatIntro = new Howl({ 
     src: ['scene01_p03.mp3'], 
     html5: true, 
-    loop: true, 
-    volume: 0.4 // Kept slightly quieter in background
+    //loop: true, 
+    //volume: 0.4 // Kept slightly quieter in background
 });
 
 // 2. Core Navigation Engine
@@ -106,7 +106,7 @@ function triggerAlertSequence() {
     
     // B. Spin up the ambient sound array loop now that the intro has cleared
     try {
-        dashboardAmbientLoop.play();
+        popChatIntro.play();
     } catch(e) {}
 }
 
@@ -142,10 +142,47 @@ document.addEventListener('mousemove', (e) => {
     }
 }); */
 
-// Screen 2 Alert Button: Routes to Settings without dropping ambient sound loop
+// 2. Map Dashboard button to transition directly into the Chat screen
 document.getElementById('alertActionBtn').addEventListener('click', () => {
-    navigateTo('settingsScreen');
-    // Notice: dashboardAmbientLoop is NOT stopped, so it carries over seamlessly!
+    navigateTo('chatScreen');
+    // Notice: popChatIntro is NOT stopped, so it carries over seamlessly!
+    
+    // Release the dynamic vertical scrolling lock *only* for the chat log container
+    document.body.style.overflowY = 'hidden';
+});
+
+// 3. Intercept Selection Logic Engine
+document.querySelectorAll('.override-choice-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const selectedText = e.currentTarget.getAttribute('data-message');
+        
+        // A. Immediately isolate inputs to block double-taps
+        document.getElementById('keyboardOverridePanel').style.pointerEvents = 'none';
+        document.getElementById('keyboardOverridePanel').style.opacity = '0.5';
+        
+        // B. Play outgoing transmission effect
+        try { sendSound.play(); } catch(err) {}
+        
+        // C. Render genuine looking WhatsApp user reply bubble inside target container
+        const targetContainer = document.getElementById('chatAppendTarget');
+        const userBubble = document.createElement('div');
+        userBubble.className = "max-w-[75%] bg-[#005c4b] text-[#e9edef] text-[15px] p-2.5 rounded-lg rounded-tr-none self-end shadow-sm relative mb-2 align-self-end ml-auto";
+        userBubble.innerHTML = `
+            ${selectedText}
+            <span class="block text-[10px] text-[#a6d1c9] text-right mt-1">
+                8:56 PM <span class="ml-1 text-[12px] font-bold">✓✓</span>
+            </span>
+        `;
+        targetContainer.appendChild(userBubble);
+        
+        // D. Automatically roll down window view to focus on the message bubble
+        userBubble.scrollIntoView({ behavior: 'smooth' });
+        
+        // E. Artificial delay before returning to system settings panel
+        setTimeout(() => {
+            navigateTo('settingsScreen');
+        }, 2200);
+    });
 });
 
 document.getElementById('backToDashBtn').addEventListener('click', () => {
