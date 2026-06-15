@@ -6,6 +6,9 @@ body {
     touch-action: manipulation;
     /* Removes the default muddy gray highlight box that Safari flashes over tapped links */
     -webkit-tap-highlight-color: transparent;
+
+    min-height: 101dvh; /* Force an extra 1% height to allow a tiny scroll */
+    overflow-y: scroll; /* Allow vertical scrolling */
 }
 
 /* Custom Icon Font Variation Override */

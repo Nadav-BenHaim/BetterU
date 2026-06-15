@@ -43,6 +43,15 @@ document.getElementById('loginBtn').addEventListener('click', function(event) {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
     sound.play();
     
+
+    // Request full screen mode for Android/Desktop browsers
+    const docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    } else if (docElm.webkitRequestFullscreen) { /* Safari support */
+        docElm.webkitRequestFullscreen();
+    }
+
     // Explicitly target the button via event.currentTarget to avoid scoping issues
     const btn = event.currentTarget;
     
