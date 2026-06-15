@@ -121,21 +121,6 @@ document.getElementById('alertActionBtn').addEventListener('click', () => {
     // Release the dynamic vertical scrolling lock *only* for the chat log container
     document.body.style.overflowY = 'hidden';
     
-    // Reset layout states in case of replay
-    const overridePanel = document.getElementById('keyboardOverridePanel');
-    overridePanel.classList.remove('intercept-active');
-    overridePanel.style.pointerEvents = 'auto';
-    overridePanel.style.opacity = '1';
-    
-    // DELAYED HIJACK EVENT SEQUENCE
-    setTimeout(() => {
-        // A. Play the jarring system error/glitch audio
-        try { errorSound.play(); } catch(err) {}
-        
-        // B. Inject the animation class to slide the lock block into view
-        overridePanel.classList.add('intercept-active');
-    }, 1200); // 1.2 seconds of false normalcy before the takeover
-
 });
 
 // 3. Intercept Selection Logic Engine
