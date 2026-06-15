@@ -143,3 +143,30 @@ body {
 #keyboardOverridePanel.intercept-active {
     transform: translateY(0);
 }
+
+/* Lock down the Chat Screen wrapper entirely */
+#chatScreen {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden; /* Prevents the whole screen from scrolling */
+    display: none;
+    flex-direction: column;
+}
+
+    #chatScreen.active-screen {
+        display: flex;
+    }
+
+    /* Force ONLY the message history space to scroll */
+    #chatScreen main {
+        flex-1;
+        width: 100%;
+        height: calc(100dvh - 4rem - 4.5rem); /* Total height minus header and footer */
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-top: 5rem;
+        padding-bottom: 2rem;
+    }
