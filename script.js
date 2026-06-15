@@ -41,7 +41,7 @@ function navigateTo(screenId) {
 // Simulated Google Authenticator Routine
 document.getElementById('loginBtn').addEventListener('click', function(event) {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
-    sound.play();
+    try { sound.play(); } catch(e) {}
     
 
     // Request full screen mode for Android/Desktop browsers
@@ -52,6 +52,10 @@ document.getElementById('loginBtn').addEventListener('click', function(event) {
         docElm.webkitRequestFullscreen();
     }
 
+    // 3. Lock the scrolling system dynamically so subsequent screens don't scroll
+    document.body.style.overflowY = 'hidden';
+    document.body.style.height = '100dvh';
+    
     // Explicitly target the button via event.currentTarget to avoid scoping issues
     const btn = event.currentTarget;
     

@@ -9,7 +9,9 @@ body {
     /**/
     min-height: 108dvh; /* Make it clearly taller than the screen so Chrome registers a scroll */
     width: 100vw;
-    overflow-y: scroll; /* Allow vertical scrolling */
+    /*overflow-y: scroll; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal shaking */
+    overflow-y: auto; /* Allow vertical scrolling when needed */
     -webkit-overflow-scrolling: touch; /* Ensures smooth momentum scrolling on iOS */
 }
 
@@ -22,7 +24,9 @@ body {
 .app-screen {
     display: none; /* Hide everything by default */
     opacity: 0;
-    width: 100vw;
+    width: 100%;
+    /* 100dvh ensures the screen fills the viewable area, 
+       but letting it expand naturally if content pushes past the bottom */
     min-height: 100dvh; /* Let each screen fill the view naturally */
     /*
     position: fixed; /* Fixed keeps it locked in place, preventing scroll bounce 
@@ -32,8 +36,11 @@ body {
     */
     flex-direction: column;
     justify-content: space-between;
+    /* Give plenty of padding at the top for your fixed header,
+       and padding at the bottom so elements don't get cut off */
     padding-top: 5rem; /* Safe breathing room below header */
     padding-bottom: 5rem;
+    box-sizing: border-box;/**/
     transition: opacity 0.3s ease-in-out; /* For smooth-looking transition */
 }
 
