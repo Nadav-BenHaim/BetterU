@@ -4,8 +4,8 @@ const sound = new Howl({
     src: ['sound-effect.mp3'], 
     html5: true // Ensures better streaming performance on mobile devices
 });
-const loginSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
-const clickSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
+// const loginSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
+// const clickSound = new Howl({ src: ['sound-effect.mp3'], html5: true });
 
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
@@ -21,11 +21,11 @@ function navigateTo(screenId) {
 // Screen 1: Login -> Dashboard
 document.getElementById('loginBtn').addEventListener('click', () => {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
-    loginSound.play(); 
+    sound.play(); 
 
     // Aesthetic structural button transformation sequence
     this.innerHTML = '<span class="relative z-10 flex items-center gap-2"><span class="material-symbols-outlined animate-spin text-sm">autorenew</span> INITIATING SYNC...</span>';
-    this.style.opacity = '0.7';
+    // this.style.opacity = '0.7';
     this.style.pointerEvents = 'none';
 
     // Short latency buffer before state route change
@@ -36,7 +36,7 @@ document.getElementById('loginBtn').addEventListener('click', () => {
 
 // Sound Triggers & Nav Routes
 document.getElementById('triggerSoundBtn').addEventListener('click', () => {
-    clickSound.play();
+    sound.play();
 });
 
 document.getElementById('toSettingsBtn').addEventListener('click', () => {
