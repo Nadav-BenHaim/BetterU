@@ -6,10 +6,9 @@ const sound = new Howl({
 });
 // Dashboard Track 1: Narrative Voiceover or Intro Sound
 const dashboardIntroSound = new Howl({ 
-    src: ['scene01_p02.mp3'], 
+    src: ['sound-effect.mp3'], //'scene01_p02.mp3'
     html5: true 
 });
-
 // Dashboard Track 2: Sustained Ambient System Loop
 const popChatIntro = new Howl({ 
     src: ['scene01_p03.mp3'], 
@@ -17,6 +16,10 @@ const popChatIntro = new Howl({
     //loop: true, 
     //volume: 0.4 // Kept slightly quieter in background
 });
+//
+const buttonSound = new Howl({ src: ['audio/button-8'], html5: true });
+const sendSound = new Howl({ src: ['audio/message-sent'], html5: true });
+const errorSound = new Howl({ src: ['audio/error_01'], html5: true });
 
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
@@ -52,7 +55,7 @@ function navigateTo(screenId) {
 // Simulated Google Authenticator Routine
 document.getElementById('loginBtn').addEventListener('click', function(event) {
     // Playing sound here unlocks mobile audio restrictions for the rest of the app session
-    try { sound.play(); } catch(e) {}
+    try { buttonSound.play(); } catch(e) {}
     
 
     // Request full screen mode for Android/Desktop browsers
@@ -110,38 +113,6 @@ function triggerAlertSequence() {
     } catch(e) {}
 }
 
-/*
-// Sound Triggers & Nav Routes
-document.getElementById('triggerSoundBtn').addEventListener('click', () => {
-    sound.play();
-});
-
-document.getElementById('toSettingsBtn').addEventListener('click', () => {
-    navigateTo('settingsScreen');
-});
-
-document.getElementById('backToDashBtn').addEventListener('click', () => {
-    navigateTo('dashboardScreen');
-});
-
-// Dynamic Volume Metric Feedback 
-document.getElementById('volumeSlider').addEventListener('input', (e) => {
-    document.getElementById('volumeVal').textContent = `${e.target.value}%`;
-    // If you want to change Howler output volume on the fly:
-    Howler.volume(e.target.value / 100);
-}); */
-
-/*
-// Subtle Ambient Canvas Mouse/Gyroscopic Response Track
-document.addEventListener('mousemove', (e) => {
-    const ring = document.querySelector('.loading-ring');
-    if (ring && ring.offsetParent !== null) { // Only calculate if visible
-        const moveX = (e.clientX - window.innerWidth / 2) / 50;
-        const moveY = (e.clientY - window.innerHeight / 2) / 50;
-        ring.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    }
-}); */
-
 // 2. Map Dashboard button to transition directly into the Chat screen
 document.getElementById('alertActionBtn').addEventListener('click', () => {
     navigateTo('chatScreen');
@@ -149,6 +120,22 @@ document.getElementById('alertActionBtn').addEventListener('click', () => {
     
     // Release the dynamic vertical scrolling lock *only* for the chat log container
     document.body.style.overflowY = 'hidden';
+    
+    // Reset layout states in case of replay
+    const overridePanel = document.getElementById('keyboardOverridePanel');
+    overridePanel.classList.remove('intercept-active');
+    overridePanel.style.pointerEvents = 'auto';
+    overridePanel.style.opacity = '1';
+    
+    // DELAYED HIJACK EVENT SEQUENCE
+    setTimeout(() => {
+        // A. Play the jarring system error/glitch audio
+        try { errorSound.play(); } catch(err) {}
+        
+        // B. Inject the animation class to slide the lock block into view
+        overridePanel.classList.add('intercept-active');
+    }, 1200); // 1.2 seconds of false normalcy before the takeover
+
 });
 
 // 3. Intercept Selection Logic Engine
