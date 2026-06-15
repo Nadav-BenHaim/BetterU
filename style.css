@@ -1,3 +1,13 @@
+body {
+    /* Prevents the user from accidentally highlighting UI text when tapping rapidly */
+    -webkit-user-select: none;
+    user-select: none;
+    /* Disables the standard 300ms double-tap-to-zoom delay on mobile browsers */
+    touch-action: manipulation;
+    /* Removes the default muddy gray highlight box that Safari flashes over tapped links */
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* Custom Icon Font Variation Override */
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
@@ -6,20 +16,25 @@
 /* Custom UI Layout Control */
 .app-screen {
     display: none; /* Hide everything by default */
+    opacity: 0;
     width: 100vw;
-    height: 100vh;
-    position: absolute;
+    height: 100dvh; /* Adapts dynamically to the actual viewable space */
+    position: fixed; /* Fixed keeps it locked in place, preventing scroll bounce */
     top: 0;
     left: 0;
+    overflow: hidden; /* Prevents accidental scroll bounce on mobile devices */
     flex-direction: column;
     justify-content: space-between;
     padding-top: 4rem; /* Safe breathing room below header */
     padding-bottom: 2rem;
+    transition: opacity 0.3s ease-in-out; /* For smooth-looking transition */
 }
 
     /* Visibility Toggle Trigger */
+    /* When active, show it and fade it in smoothly */
     .app-screen.active-screen {
         display: flex;
+        opacity: 1;
     }
 
 /* Central Orb Animations */

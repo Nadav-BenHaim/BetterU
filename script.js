@@ -10,10 +10,29 @@ const sound = new Howl({
 // 2. Core Navigation Engine
 function navigateTo(screenId) {
     const current = document.querySelector('.app-screen.active-screen');
-    if (current) current.classList.remove('active-screen');
-
     const target = document.getElementById(screenId);
-    if (target) target.classList.add('active-screen');
+
+    if (current) {
+        current.style.opacity = '0';
+        // Wait for the fade-out duration before switching displays
+        setTimeout(() => {
+            current.classList.remove('active-screen');
+            current.style.display = 'none';
+            
+            if (target) {
+                target.style.display = 'flex';
+                // Trigger a tiny micro-task buffer so the browser catches the display shift before fading in
+                setTimeout(() => {
+                    target.classList.add('active-screen');
+                    target.style.opacity = '1';
+                }, 20);
+            }
+        }, 300);
+    } else if (target) {
+        target.style.display = 'flex';
+        target.classList.add('active-screen');
+        target.style.opacity = '1';
+    }
 }
 
 // 3. Set Up Button Click Listeners
